@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Wastage Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #f8e8c1, #f1c27d);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 400px;
+            animation: slideIn 1.2s ease-out;
+            transform: scale(0.98);
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: scale(1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 15px 0 5px;
+            color: #444;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        button {
+            width: 100%;
+            background: #d4af37;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #b68c2c;
+            transform: translateY(-2px);
+        }
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #444;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gold Wastage Calculator</h1>
+        <form id="wastageForm">
+            <label for="weight">Weight of Ring (grams):</label>
+            <input type="number" id="weight" step="0.01" required>
+
+            <label for="goldRate">Gold Rate (per gram):</label>
+            <input type="number" id="goldRate" step="0.01" required>
+
+            <label for="price">Price Asked by Jeweler:</label>
+            <input type="number" id="price" step="0.01" required>
+
+            <button type="button" onclick="calculateWastage()">Calculate Wastage</button>
+        </form>
+        <h2 id="result"></h2>
+    </div>
+
+    <script>
+        function calculateWastage() {
+            // Get input values
+            const weight = parseFloat(document.getElementById('weight').value);
+            const goldRate = parseFloat(document.getElementById('goldRate').value);
+            const price = parseFloat(document.getElementById('price').value);
+
+            // Validate input
+            if (!weight || !goldRate || !price) {
+                document.getElementById('result').innerText = "Please fill all the fields.";
+                return;
+            }
+
+            // Calculate gold value
+            const goldValue = weight * goldRate;
+
+            // Calculate extra charge
+            const extra = price - goldValue;
+
+            // Calculate wastage percentage
+            const wastagePercentage = (extra / goldValue) * 100;
+
+            // Display the result
+            const resultElement = document.getElementById('result');
+            resultElement.innerText = Wastage Percentage: ${wastagePercentage.toFixed(2)}%;
+            resultElement.style.opacity = 0;
+            setTimeout(() => {
+                resultElement.style.opacity = 1;
+            }, 100);
+        }
+    </script>
+</body>
+</html>
