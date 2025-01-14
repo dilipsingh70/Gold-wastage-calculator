@@ -134,13 +134,19 @@
             const price = parseFloat(document.getElementById('price').value);
 
             // Validate input
-            if (!weight || !goldRate || !price) {
-                document.getElementById('result').innerText = "Please fill all the fields.";
+            if (isNaN(weight) || isNaN(goldRate) || isNaN(price)) {
+                document.getElementById('result').innerText = "Please enter valid numbers in all fields.";
                 return;
             }
 
             // Calculate gold value
             const goldValue = weight * goldRate;
+
+            // Check if the jeweler's price is lower than the gold value
+            if (price < goldValue) {
+                document.getElementById('result').innerText = "Price cannot be lower than the gold value.";
+                return;
+            }
 
             // Calculate extra charge
             const extra = price - goldValue;
@@ -150,7 +156,7 @@
 
             // Display the result
             const resultElement = document.getElementById('result');
-            resultElement.innerText = Wastage Percentage: ${wastagePercentage.toFixed(2)}%;
+            resultElement.innerText = `Wastage Percentage: ${wastagePercentage.toFixed(2)}%`;
             resultElement.style.opacity = 0;
             setTimeout(() => {
                 resultElement.style.opacity = 1;
