@@ -3,117 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gold Wastage Calculator</title>
+    <title>Gold Rate & Wastage Calculator</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500&display=swap');
+
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #f8e8c1, #f1c27d);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f4e3, #e6d6c4);
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            color: #3a3a3a;
         }
+
         .container {
-            background: #fff;
-            border: 3px solid #d4af37;
+            background: #ffffff;
+            padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 40px;
-            width: 100%;
-            max-width: 900px; /* Wider container for larger screens */
-            animation: slideIn 1.2s ease-out;
-            transform: scale(0.98);
-            transition: transform 0.3s;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid #d4af37;
         }
-        .container:hover {
-            transform: scale(1);
-        }
+
         h1 {
+            font-family: 'Playfair Display', serif;
             text-align: center;
-            font-size: 32px; /* Larger font size */
-            color: #d4af37;
-            margin-bottom: 25px;
-            animation: pulse 1.5s infinite;
+            color: #b3864e;
+            margin-bottom: 20px;
+            font-size: 28px;
         }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: #b3864e;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
         label {
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
             display: block;
-            font-weight: bold;
-            margin: 20px 0 10px;
-            color: #444;
-            font-size: 18px; /* Larger labels */
         }
+
         input {
             width: 100%;
-            padding: 15px; /* Larger input fields */
-            margin-bottom: 20px;
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: all 0.3s;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
+
         input:focus {
             border-color: #d4af37;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
+            outline: none;
         }
+
         button {
             width: 100%;
-            background: #d4af37;
-            color: white;
-            padding: 15px; /* Larger button */
-            font-size: 18px; /* Larger text for button */
-            font-weight: bold;
+            padding: 12px;
+            margin-bottom: 10px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s;
+            color: #fff;
+            background: #d4af37;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
+
         button:hover {
-            background: #b68c2c;
-            transform: translateY(-2px);
+            background: #b38750;
+            transform: scale(1.03);
         }
-        #result {
-            margin-top: 30px;
+
+        .output {
             text-align: center;
-            font-size: 22px; /* Larger result text */
-            font-weight: bold;
+            font-weight: 500;
+            margin-top: 20px;
+            font-size: 18px;
             color: #444;
-            opacity: 0;
-            animation: fadeIn 1.5s forwards;
+            background: #f9f5ec;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #d4af37;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
         }
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        .form-container, #buttons, #wastageCalculator {
+            display: none;
         }
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px;
             }
-            50% {
-                transform: scale(1.05);
+            button {
+                font-size: 14px;
             }
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
+            input {
+                font-size: 13px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Gold Wastage Calculator</h1>
-        <form id="wastageForm">
+        <h1>Gold Rate Calculator</h1>
+
+        <!-- Rate Input Section -->
+        <div id="rateSection">
+            <label for="rate22">22-Carat Gold Rate (₹/gram):</label>
+            <input type="number" id="rate22" placeholder="Enter rate here" required>
+            <button onclick="validateRate()">Submit Rate</button>
+        </div>
+
+        <!-- Buttons Section -->
+        <div id="buttons">
+            <button onclick="showForm('91_6Form')">91.6 Gold</button>
+            <button onclick="showForm('normalForm')">Normal Gold</button>
+            <button onclick="showWastageCalculator()">Gold Wastage Calculator</button>
+            <button onclick="goBackToRate()">Back</button>
+        </div>
+
+        <!-- Form for 91.6 Calculation -->
+        <div id="91_6Form" class="form-container">
+            <label for="weight91_6">Weight (grams):</label>
+            <input type="number" id="weight91_6" placeholder="Enter weight" required>
+
+            <label for="wastage91_6">Wastage Percentage (%):</label>
+            <input type="number" id="wastage91_6" placeholder="Enter wastage %" required>
+
+            <button onclick="calculate91_6()">Calculate</button>
+            <button onclick="goBackToButtons()">Back</button>
+        </div>
+
+        <!-- Form for Normal Calculation -->
+        <div id="normalForm" class="form-container">
+            <label for="weightNormal">Weight (grams):</label>
+            <input type="number" id="weightNormal" placeholder="Enter weight" required>
+
+            <button onclick="calculateNormal()">Calculate</button>
+            <button onclick="goBackToButtons()">Back</button>
+        </div>
+
+        <!-- Wastage Calculator -->
+        <div id="wastageCalculator" class="form-container">
+            <h2>Gold Wastage Calculator</h2>
             <label for="weight">Weight of Ring (grams):</label>
             <input type="number" id="weight" step="0.01" required>
 
@@ -123,46 +171,99 @@
             <label for="price">Price Asked by Jeweler:</label>
             <input type="number" id="price" step="0.01" required>
 
-            <button type="button" onclick="calculateWastage()">Calculate Wastage</button>
-        </form>
-        <h2 id="result"></h2>
+            <button onclick="calculateWastage()">Calculate Wastage</button>
+            <button onclick="goBackToButtons()">Back</button>
+        </div>
+
+        <!-- Output -->
+        <div id="output" class="output"></div>
     </div>
 
     <script>
+        function validateRate() {
+            const rate22Carat = document.getElementById("rate22").value;
+
+            if (!rate22Carat || parseFloat(rate22Carat) <= 0) {
+                alert("Please enter a valid 22-carat gold rate.");
+            } else {
+                document.getElementById("rateSection").style.display = 'none';
+                document.getElementById("buttons").style.display = 'block';
+            }
+        }
+
+        function showForm(formId) {
+            hideAllForms();
+            document.getElementById(formId).style.display = 'block';
+        }
+
+        function showWastageCalculator() {
+            hideAllForms();
+            document.getElementById("wastageCalculator").style.display = 'block';
+        }
+
+        function hideAllForms() {
+            document.getElementById('91_6Form').style.display = 'none';
+            document.getElementById('normalForm').style.display = 'none';
+            document.getElementById('wastageCalculator').style.display = 'none';
+            document.getElementById('buttons').style.display = 'none';
+        }
+
+        function goBackToRate() {
+            hideAllForms();
+            document.getElementById("rateSection").style.display = 'block';
+            document.getElementById('output').innerHTML = "";
+        }
+
+        function goBackToButtons() {
+            hideAllForms();
+            document.getElementById("buttons").style.display = 'block';
+            document.getElementById('output').innerHTML = "";
+        }
+
+        function calculate91_6() {
+            const rate22Carat = parseFloat(document.getElementById("rate22").value);
+            const weight = parseFloat(document.getElementById("weight91_6").value);
+            const wastagePercentage = parseFloat(document.getElementById("wastage91_6").value);
+
+            if (!isNaN(rate22Carat) && !isNaN(weight) && !isNaN(wastagePercentage)) {
+                const baseValue = weight * rate22Carat;
+                const wastageValue = (baseValue * wastagePercentage) / 100;
+                const finalValue = baseValue + wastageValue;
+
+                document.getElementById("output").innerHTML = 
+                    `Total Cost (91.6 Gold): ₹${finalValue.toFixed(2)}`;
+            }
+        }
+
+        function calculateNormal() {
+            const rate22Carat = parseFloat(document.getElementById("rate22").value);
+            const weight = parseFloat(document.getElementById("weightNormal").value);
+
+            if (!isNaN(rate22Carat) && !isNaN(weight)) {
+                const adjustedRate = rate22Carat - 150;
+                const finalValue = weight * adjustedRate;
+
+                document.getElementById("output").innerHTML = 
+                    `Total Cost (Normal Gold): ₹${finalValue.toFixed(2)}`;
+            }
+        }
+
         function calculateWastage() {
-            // Get input values
             const weight = parseFloat(document.getElementById('weight').value);
             const goldRate = parseFloat(document.getElementById('goldRate').value);
             const price = parseFloat(document.getElementById('price').value);
 
-            // Validate input
-            if (isNaN(weight) || isNaN(goldRate) || isNaN(price)) {
-                document.getElementById('result').innerText = "Please enter valid numbers in all fields.";
+            if (!weight || !goldRate || !price) {
+                document.getElementById('output').innerText = "Please fill all the fields.";
                 return;
             }
 
-            // Calculate gold value
             const goldValue = weight * goldRate;
-
-            // Check if the jeweler's price is lower than the gold value
-            if (price < goldValue) {
-                document.getElementById('result').innerText = "Price cannot be lower than the gold value.";
-                return;
-            }
-
-            // Calculate extra charge
             const extra = price - goldValue;
-
-            // Calculate wastage percentage
             const wastagePercentage = (extra / goldValue) * 100;
 
-            // Display the result
-            const resultElement = document.getElementById('result');
-            resultElement.innerText = `Wastage Percentage: ${wastagePercentage.toFixed(2)}%`;
-            resultElement.style.opacity = 0;
-            setTimeout(() => {
-                resultElement.style.opacity = 1;
-            }, 100);
+            document.getElementById("output").innerHTML = 
+                `Wastage Percentage: ${wastagePercentage.toFixed(2)}%`;
         }
     </script>
 </body>
